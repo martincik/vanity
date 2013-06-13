@@ -257,7 +257,7 @@ module Vanity
           env = ENV["RACK_ENV"] || ENV["RAILS_ENV"] || "development"
           redis = load_config_file("redis.yml")[env]
           fail "No configuration for #{env}" unless redis
-          establish_connection "redis://" + redis
+          establish_connection ["redis://", redis[:host], redis[:port] || 6379].join
         else
           establish_connection :adapter=>"redis"
         end
